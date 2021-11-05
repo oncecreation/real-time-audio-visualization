@@ -113,9 +113,9 @@ randAccelX = 0;
 randAccelY = 0;
 randAccelZ = 0;
 
-gravity = 0; //try changing to a positive number (not too large, for example 0.3), or negative for floating upwards.
+gravity = 0.2; //try changing to a positive number (not too large, for example 0.3), or negative for floating upwards.
 
-particleRad = 2.5;
+particleRad = 3;
 sphereRad = radius;// * (Math.max(...frequencyArray) / 240);
 sphereCenterX = 0;
 sphereCenterY = 0;
@@ -204,6 +204,9 @@ function init() {
         }
         
         //initialize
+        newParticle.xInitial = x0;
+        newParticle.yInitial = y0;
+        newParticle.zInitial = z0;
         newParticle.x = x0;
         newParticle.y = y0;
         newParticle.z = z0;
@@ -229,8 +232,8 @@ function render() {
 	analyser.getByteFrequencyData(frequencyArray)
 	
 	// Use one of the renderers below 
-    // const radiusOffset = sphereRad * Math.max(...frequencyArray) / 240
-	circleRenderer(
+
+    circleRenderer(
         ctx, 
         displayWidth,
         displayHeight,
@@ -246,10 +249,10 @@ function render() {
         turnAngle,
         setTurnAngle,
         turnSpeed,
-        // radiusOffset
         frequencyArray
     )
     // console.log(frequencyArray)
 	// Set up the next animation frame
-	setTimeout(() => requestAnimationFrame(render), 20)
+	// setTimeout(() => requestAnimationFrame(render), 20)
+    requestAnimationFrame(render)
 }
