@@ -1,14 +1,16 @@
-export default function render(ctx, frequencyArray, centerX, centerY, radius) {
-    // clearRect(0, 0, 900, 520);
+export default function render(ctx, frequencyArray, centerX, centerY, radius, renderCount, incrementRenderCount) {
+    const velocityX = renderCount / 2;
+    const velocityY = 0
+    const velocityZ = 0
     ctx.fillStyle = "#0b0b0b";
     ctx.fillRect(0, 0,centerX * 2, centerY * 2);
     radius = radius * (Math.max(...frequencyArray) / 240)
     frequencyArray.forEach((item, i) => {
         let theta = Math.random() * 2 * Math.PI;
         let phi = Math.acos(Math.random()*2-1);
-        let x0 = centerX + radius * Math.sin(phi) * Math.cos(theta);
-        let y0 = centerY + radius * Math.sin(phi) * Math.sin(theta);
-        let z0 = radius * Math.cos(phi);
+        let x0 = centerX + radius * Math.sin(phi) * Math.cos(theta) + velocityX;
+        let y0 = centerY + radius * Math.sin(phi) * Math.sin(theta) + velocityY;
+        let z0 = radius * Math.cos(phi) + velocityZ;
         let centerZ = -3 - radius 
         let turnSpeed = 2 * Math.PI / 1600; //the sphere will rotate at this speed (one complete rotation every 1600 frames).
         let turnAngle = (0 + turnSpeed) % (2 * Math.PI);
@@ -36,4 +38,5 @@ export default function render(ctx, frequencyArray, centerX, centerY, radius) {
         ctx.closePath();
         ctx.fill();
     })
+    incrementRenderCount()
 }

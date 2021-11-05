@@ -1,4 +1,4 @@
-import circleRenderer from './sphere.js'
+import circleRenderer from './sphereRender.js'
 
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
@@ -25,6 +25,11 @@ pauseButton.addEventListener('click', (e) => {
 let analyser
 let frequencyArray
 let audio
+let renderCount = 0
+
+function incrementRenderCount () { 
+    renderCount += 1
+}
 
 // Starts playing the audio
 function startAudio() {
@@ -63,9 +68,9 @@ function render() {
     const centerX = 900 / 2
 	const centerY = 520 / 2
 	const radius = 900 / 4
-
-	circleRenderer(ctx, frequencyArray, centerX, centerY, radius)
+    
+	circleRenderer(ctx, frequencyArray.slice(0, 500), centerX, centerY, radius, renderCount, incrementRenderCount)
     // console.log(frequencyArray)
 	// Set up the next animation frame
-	setTimeout(() => requestAnimationFrame(render), 10)
+	setTimeout(() => requestAnimationFrame(render), 50)
 }
