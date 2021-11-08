@@ -37,7 +37,7 @@ function startAudio() {
 	// Get a context 
 	const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
-    audio.src = 'gold_dust.mp3'
+    audio.src = 'batuque.mp3'
     // audio.src = 'road_runner.mp3'
 
 	// Make a new analyser
@@ -49,8 +49,7 @@ function startAudio() {
 
 	// Get an array of audio data from the analyser
 	frequencyArray = new Uint8Array(analyser.frequencyBinCount)
-	// console.log(frequencyArray.length)
-	
+
 	// Start playing the audio
 	audio.play()
 
@@ -80,17 +79,11 @@ var particleRad;
 var zeroAlphaDepth;
 var randAccelX, randAccelY, randAccelZ;
 var gravity;
-var rgbString;
 var p;
 var i;
 var theta, phi;
 var x0, y0, z0;
 
-r = 255;
-g = 0;
-b = 0;
-
-rgbString = "rgba("+r+","+g+","+b+","; //partial string for color which will be completed by appending alpha value.
 particleAlpha = 1; //maximum alpha
 
 displayWidth = canvas.width;
@@ -229,7 +222,7 @@ function init() {
 // Render particles
 function render() {
 
-	analyser.getByteFrequencyData(frequencyArray)
+    analyser.getByteFrequencyData(frequencyArray)
 	
 	// Use one of the renderers below 
 
@@ -244,8 +237,6 @@ function render() {
         projCenterY,
         sphereCenterZ,
         particleRad,
-        zeroAlphaDepth,
-        rgbString,
         turnAngle,
         setTurnAngle,
         turnSpeed,

@@ -9,14 +9,13 @@ function render(
     sphereCenterY,
     sphereCenterZ,
     particleRad,
-    zeroAlphaDepth,
-    rgbString,
     turnAngle,
     setTurnAngle,
     turnSpeed,
     frequencyArray
 ) {
-    
+    const groupNum = 1024 / 3
+
     ctx.fillStyle = "#0b0b0b";
     ctx.fillRect(0, 0, displayWidth, displayHeight);
 
@@ -71,10 +70,37 @@ function render(
         p.projX = rotX*m + sphereCenterX;
         p.projY = p.y*m + sphereCenterY;
 
-        ctx.fillStyle = rgbString + frequencyArray[counter] / 220 + ")";
+        let r = 0;
+        let g = 0;
+        let b = 0;
+
+        if (counter < groupNum / 2) {
+            r = 247;
+            g = 38;
+            b = 132;
+        } else if (counter < groupNum) {
+            r = 76;
+            g = 201;
+            b = 240;
+        } else if (counter < 3 * groupNum / 2) {
+            r = 15;
+            g = 255;
+            b = 149;
+        } else if (counter < 2 * groupNum) {
+            r = 218;
+            g = 191;
+            b = 255;
+        } else if (counter <= 5 * groupNum / 2) {
+            r = 252;
+            g = 255;
+            b = 75;
+        }
+        let rgbString = "rgba(" + r + "," + g + "," + b + ",";
+
+        ctx.fillStyle = rgbString + frequencyArray[counter] / 225 + ")";
         
         ctx.beginPath();
-        ctx.arc(p.projX, p.projY, m * particleRad, 0, 2 * Math.PI, false);
+        ctx.arc(p.projX, p.projY, m * particleRad * frequencyArray[counter] / 125, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fill();
         
