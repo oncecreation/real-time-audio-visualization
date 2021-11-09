@@ -5,20 +5,20 @@ const ctx = canvas.getContext('2d')
 
 // ----------------------------------------------------------
 // Buttons 
-const playButton = document.getElementById('button-play')
-const pauseButton = document.getElementById('button-pause')
+// const playButton = document.getElementById('button-play')
+// const pauseButton = document.getElementById('button-pause')
 
-playButton.addEventListener('click', async (e) => {
-	await init()
-    await setTurnSpeed(2 * Math.PI / 1600)
-    await startAudio()
-})
+// playButton.addEventListener('click', async (e) => {
+// 	await init()
+//     await setTurnSpeed(2 * Math.PI / 1600)
+//     await startAudio()
+// })
 
-pauseButton.addEventListener('click', async (e) => {
-	await audio.pause()
-    await setTurnSpeed(0)
-    await setTurnAngle(0)
-})
+// pauseButton.addEventListener('click', async (e) => {
+// 	await audio.pause()
+//     await setTurnSpeed(0)
+//     await setTurnAngle(0)
+// })
 
 
 // --------------------------------------------------------
@@ -27,21 +27,55 @@ pauseButton.addEventListener('click', async (e) => {
 // Defime some variables 
 let analyser
 let frequencyArray
-let audio
+let audioElement
+
+function changeHandler({
+    target
+  }) {
+    // Make sure we have files to use
+    if (!target.files.length) return;
+  
+    // Create a blob that we can use as an src for our audio element
+    const urlObj = URL.createObjectURL(target.files[0]);
+  
+    // Create an audio element
+    audioElement = document.createElement("audio");
+  
+    // Clean up the URL Object after we are done with it
+    audioElement.addEventListener("load", () => {
+      URL.revokeObjectURL(urlObj);
+    });
+  
+    // Append the audio element
+    document.body.appendChild(audioElement);
+  
+    // Allow us to control the audio
+    audioElement.controls = "true";
+  
+    // Set the src and start loading the audio from the file
+    audioElement.src = urlObj;
+    startAudio()
+  }
+  
+  document
+    .getElementById("audio-file")
+    .addEventListener("change", changeHandler);
 
 // Starts playing the audio
 function startAudio() {
 	// make a new Audio Object
-	audio = new Audio()
+	// audio = new Audio()
 	// Get a context 
 	const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
-    audio.src = 'batuque.mp3'
+    // audio.src = 'batuque.mp3'
+    // let audioElement = document.getElementById("audio-file");
+    // audioElement.src = audioElement.value
 
 	// Make a new analyser
 	analyser = audioContext.createAnalyser()
 	// Connect the analyser and the audio
-	const source = audioContext.createMediaElementSource(audio)
+	const source = audioContext.createMediaElementSource(audioElement)
 	source.connect(analyser)
 	analyser.connect(audioContext.destination)
 
@@ -49,7 +83,7 @@ function startAudio() {
 	frequencyArray = new Uint8Array(analyser.frequencyBinCount)
 
 	// Start playing the audio
-	audio.play()
+	audioElement.play()
 
 	requestAnimationFrame(render)
 }
