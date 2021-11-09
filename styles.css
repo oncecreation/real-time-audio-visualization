@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
 body, html {
   height: 100%;
 }
@@ -7,10 +9,15 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 4rem;
+  padding-bottom: 4rem;
 }
 
 #canvas {
-  border: 1px solid;
+  margin-top: -10rem;
+  /* border: 1px solid; */
+  border-radius: 1rem;
+  margin-bottom: 2rem;
 }
 
 button {
@@ -18,4 +25,58 @@ button {
   padding: 1em;
   border-radius: 0.25em;
   border: 1px solid;
+}
+
+.drag-area{
+  margin-top: -450px;
+  margin-bottom: 4rem;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.drag-area{
+  border: 2px dashed #5256ad;
+  height: 400px;
+  width: 600px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.drag-area.active{
+  border: 2px solid #5256ad;
+}
+.drag-area .icon{
+  font-size: 100px;
+  color: #5256ad;
+}
+.drag-area header{
+  font-size: 30px;
+  font-weight: 500;
+  color: #5256ad;
+}
+.drag-area span{
+  font-size: 25px;
+  font-weight: 500;
+  color: #5256ad;
+  margin: 10px 0 15px 0;
+}
+.drag-area button{
+  padding: 10px 25px;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background: #5256ad;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.drag-area img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
 }

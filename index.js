@@ -28,38 +28,85 @@ const ctx = canvas.getContext('2d')
 let analyser
 let frequencyArray
 let audioElement
+const dropArea = document.querySelector(".drag-area"),
+    dragText = dropArea.querySelector("header"),
+    button = dropArea.querySelector("button"),
+    input = document.getElementById("audio-file")
 
-function changeHandler({
-    target
-  }) {
+function changeHandler(
+    file
+) {
     // Make sure we have files to use
-    if (!target.files.length) return;
-  
+    if (!file) return;
+
     // Create a blob that we can use as an src for our audio element
-    const urlObj = URL.createObjectURL(target.files[0]);
-  
+    const urlObj = URL.createObjectURL(file);
+
+    const old = document.getElementsByTagName("audio")
+    if (old.length > 0) {
+        for (let i = 0; i < old.length; i += 1) {
+            document.body.removeChild(old[i])
+        }
+    } 
     // Create an audio element
     audioElement = document.createElement("audio");
-  
+
     // Clean up the URL Object after we are done with it
     audioElement.addEventListener("load", () => {
-      URL.revokeObjectURL(urlObj);
+        URL.revokeObjectURL(urlObj);
     });
-  
+
     // Append the audio element
-    document.body.appendChild(audioElement);
-  
+    document.body.insertBefore(audioElement, document.body.children[1]);
+
     // Allow us to control the audio
     audioElement.controls = "true";
-  
+
     // Set the src and start loading the audio from the file
     audioElement.src = urlObj;
     startAudio()
-  }
+}
   
-  document
-    .getElementById("audio-file")
-    .addEventListener("change", changeHandler);
+//   document
+//     .getElementById("audio-file")
+//     .addEventListener("change", changeHandler);
+
+button.onclick = ()=>{
+  input.click(); //if user click on the button then the input also clicked
+}
+
+input.addEventListener("change", function(event){
+  //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+  const file = event.target.files[0];
+  dropArea.classList.add("active");
+  changeHandler(file); //calling function
+  dropArea.style["margin-top"] = "2rem"
+  canvas.style["margin-top"] = "6rem"
+});
+
+
+//If user Drag File Over DropArea
+dropArea.addEventListener("dragover", (event)=>{
+  event.preventDefault(); //preventing from default behaviour
+  dropArea.classList.add("active");
+  dragText.textContent = "Release to Upload File";
+});
+
+//If user leave dragged File from DropArea
+dropArea.addEventListener("dragleave", ()=>{
+  dropArea.classList.remove("active");
+  dragText.textContent = "Drag & Drop to Upload File";
+});
+
+//If user drop File on DropArea
+dropArea.addEventListener("drop", (event)=>{
+  event.preventDefault(); //preventing from default behaviour
+  //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+  const file = event.dataTransfer.files[0];
+  changeHandler(file); //calling function
+  dropArea.style["margin-top"] = "2rem"
+  canvas.style["margin-top"] = "6rem"
+});
 
 // Starts playing the audio
 function startAudio() {
