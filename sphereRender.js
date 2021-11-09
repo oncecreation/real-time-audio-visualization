@@ -15,7 +15,7 @@ function render(
     frequencyArray,
     sphereRad
 ) {
-    const groupNum = 1024 / 3
+    const groupNum = 1024 / 4
 
     ctx.fillStyle = "#0b0b0b";
     ctx.fillRect(0, 0, displayWidth, displayHeight);
@@ -73,7 +73,7 @@ function render(
             r = 218;
             g = 191;
             b = 255;
-        } else if (counter <= 5 * groupNum / 2) {
+        } else if (counter <= 1023) {
             r = 252;
             g = 255;
             b = 75;
