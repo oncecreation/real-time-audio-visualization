@@ -28,11 +28,12 @@ const ctx = canvas.getContext('2d')
 let analyser
 let frequencyArray
 let audioElement
-const dropArea = document.querySelector(".drag-area"),
-    dragText = dropArea.querySelector("header"),
-    button = dropArea.querySelector("button"),
+const dropArea = document.getElementById("drag-area"),
+    dragText = document.getElementById("header"),
+    button = document.getElementById("button"),
     input = document.getElementById("audio-file")
-
+console.log(dropArea)
+console.log(button)
 function changeHandler(
     file
 ) {
@@ -71,9 +72,10 @@ function changeHandler(
 //     .getElementById("audio-file")
 //     .addEventListener("change", changeHandler);
 
-button.onclick = ()=>{
-  input.click(); //if user click on the button then the input also clicked
-}
+button.addEventListener("click", () => {
+    console.log(0)
+    input.click(); //if user click on the button then the input also clicked
+})
 
 input.addEventListener("change", function(event){
   //getting user select file and [0] this means if user select multiple files then we'll select only the first one
@@ -86,26 +88,27 @@ input.addEventListener("change", function(event){
 
 
 //If user Drag File Over DropArea
-dropArea.addEventListener("dragover", (event)=>{
+dropArea.addEventListener("dragover", (event) => {
   event.preventDefault(); //preventing from default behaviour
   dropArea.classList.add("active");
   dragText.textContent = "Release to Upload File";
 });
 
 //If user leave dragged File from DropArea
-dropArea.addEventListener("dragleave", ()=>{
+dropArea.addEventListener("dragleave", () => {
   dropArea.classList.remove("active");
   dragText.textContent = "Drag & Drop to Upload File";
 });
 
 //If user drop File on DropArea
-dropArea.addEventListener("drop", (event)=>{
+dropArea.addEventListener("drop", (event) => {
   event.preventDefault(); //preventing from default behaviour
   //getting user select file and [0] this means if user select multiple files then we'll select only the first one
   const file = event.dataTransfer.files[0];
   changeHandler(file); //calling function
   dropArea.style["margin-top"] = "2rem"
   canvas.style["margin-top"] = "6rem"
+  canvas.style['display'] = 'block'
 });
 
 // Starts playing the audio

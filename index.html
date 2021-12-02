@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Audio Visualizer</title>
@@ -9,14 +9,14 @@
 
     <canvas id="canvas" width="900" height="520"></canvas>
 
-    <div class="drag-area">
+    <div id="drag-area" class="drag-area">
       <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
-      <header>drag & drop an audio file</header>
+      <header id="header">drag & drop an audio file</header>
       <span>or</span>
-      <button>browse file</button>
+      <button id="button">browse file</button>
       <input type="file" id="audio-file" accept="audio/mpeg, audio/ogg, audio/*" hidden>
     </div>
-  
+    
     <!-- <h5>Upload Audio File</h5>
     <input type="file" id="audio-file" accept="audio/mpeg, audio/ogg, audio/*" /> -->
     <!-- <button id="button-play">Play</button>
