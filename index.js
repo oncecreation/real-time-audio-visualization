@@ -32,8 +32,7 @@ const dropArea = document.getElementById("drag-area"),
     dragText = document.getElementById("header"),
     button = document.getElementById("button"),
     input = document.getElementById("audio-file")
-console.log(dropArea)
-console.log(button)
+
 function changeHandler(
     file
 ) {
@@ -51,6 +50,7 @@ function changeHandler(
     } 
     // Create an audio element
     audioElement = document.createElement("audio");
+    audioElement.setAttribute("crossorigin", "anonymous")
 
     // Clean up the URL Object after we are done with it
     audioElement.addEventListener("load", () => {
@@ -73,7 +73,6 @@ function changeHandler(
 //     .addEventListener("change", changeHandler);
 
 button.addEventListener("click", () => {
-    console.log(0)
     input.click(); //if user click on the button then the input also clicked
 })
 
@@ -84,6 +83,7 @@ input.addEventListener("change", function(event){
   changeHandler(file); //calling function
   dropArea.style["margin-top"] = "2rem"
   canvas.style["margin-top"] = "6rem"
+  canvas.style['display'] = 'block'
 });
 
 
@@ -113,29 +113,47 @@ dropArea.addEventListener("drop", (event) => {
 
 // Starts playing the audio
 function startAudio() {
-	// make a new Audio Object
-	// audio = new Audio()
+
 	// Get a context 
-	const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)() || false
+  console.log(audioContext)
+  if (audioContext) {
 
-    // audio.src = 'batuque.mp3'
-    // let audioElement = document.getElementById("audio-file");
-    // audioElement.src = audioElement.value
+    // Make a new analyser
+    analyser = audioContext.createAnalyser()
+    // Connect the analyser and the audio
 
-	// Make a new analyser
-	analyser = audioContext.createAnalyser()
-	// Connect the analyser and the audio
-	const source = audioContext.createMediaElementSource(audioElement)
-	source.connect(analyser)
-	analyser.connect(audioContext.destination)
+    const source = audioContext.createMediaElementSource(audioElement)
 
-	// Get an array of audio data from the analyser
-	frequencyArray = new Uint8Array(analyser.frequencyBinCount)
+    source.connect(analyser)
+    analyser.connect(audioContext.destination)
 
-	// Start playing the audio
-	audioElement.play()
+    // Get an array of audio data from the analyser
+    frequencyArray = new Uint8Array(analyser.frequencyBinCount)
+    console.log(frequencyArray)
 
-	requestAnimationFrame(render)
+    try {
+      const source = audioContext.createMediaElementSource(audioElement)
+
+      source.connect(analyser)
+      analyser.connect(audioContext.destination)
+
+      // Get an array of audio data from the analyser
+      frequencyArray = new Uint8Array(analyser.frequencyBinCount)
+      console.log(frequencyArray)
+      audioElement.play()
+
+    } catch (error) {
+      alert("Your browser does not support the HTML5 Audio API")
+      console.log(error)
+    }
+
+
+  } else {
+    alert("Your browser does not support the HTML5 Audio API")
+  }
+  requestAnimationFrame(render)
+
 }
 
 // --------------------------------------------------------
